@@ -62,11 +62,7 @@ def xmlize(event_root, writer):
     # female_names_list, female_short_names_list = [], []
     names_list, short_names_list = [], []
     for child in event_root:
-        if ((child.tag == 'weaponBlueprint') and
-                ("DRONE" not in child.attrib['name'])):
-            tooltips(child, writer)
         if child.tag == 'nameList':
-            # ftl_names(child, writer)
             if not naming:
                 naming = True
             if child.attrib['sex'] == 'male':
