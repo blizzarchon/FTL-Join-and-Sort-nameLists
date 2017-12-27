@@ -3,7 +3,7 @@ For use with FTL: Faster Than Light.
 
 Given a names.xml-formatted file, this program join all the 'male' and 'female' nameLists in the file into two lists, one for each gender. The names in the nameLists are sorted alphabetically, and then outputted into a text file, ready as the names.xml file for use in a mod.
 
-***History***
+_***History***_
 
 **Note:** May not be completely correct, needs more testing.
 
