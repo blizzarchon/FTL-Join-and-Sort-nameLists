@@ -58,27 +58,23 @@ def xmlize(event_root, writer):
     :rtype: None
     """
     naming = False
-    # male_names_list, male_short_names_list = [], []
-    # female_names_list, female_short_names_list = [], []
-    names_list, short_names_list = [], []
+    male_names_list, male_short_names_list = [], []
+    female_names_list, female_short_names_list = [], []
+    # above used to be names_list and short_names_list for both genders
     for child in event_root:
         if child.tag == 'nameList':
             if not naming:
                 naming = True
             if child.attrib['sex'] == 'male':
-                # names_list was male_names_list
-                ftl_names_v2(child, names_list, short_names_list)
+                ftl_names_v2(child, male_names_list, male_short_names_list)
             elif child.attrib['sex'] == 'female':
-                # names_list was female_names_list
-                ftl_names_v2(child, names_list, short_names_list)
+                ftl_names_v2(child, female_names_list, female_short_names_list)
             else:
                 raise ValueError("nameList's 'sex' attribute must "
                                  "either be male or female!\n")
     if naming:
-        # write_names(writer, male_short_names_list, male_names_list,
-        #             female_short_names_list, female_names_list)
-        write_names(writer, short_names_list, names_list,
-                    short_names_list, names_list)
+        write_names(writer, male_short_names_list, male_names_list,
+                    female_short_names_list, female_names_list)
 
 
 if __name__ == '__main__':
