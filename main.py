@@ -42,11 +42,12 @@ def write_names(wf, short_male, reg_male, short_female, reg_female):
     wf.write("</nameList>\n\n"
              "<nameList race=\"human\" sex=\"female\">\n")
     for name_tuple in sorted(short_female):
-        wf.write("\t<name short=\"{}\">{}\u200b</name>\n"
-                 "".format(name_tuple[0], name_tuple[1]))
+        wf.write("\t<name short=\"{}\">{}</name>\n"
+                 "".format(name_tuple[0], 
+                           name_tuple[1] + '\u200b'))
     for name_string in sorted(reg_female):
-        wf.write("\t<name>{}\u200b</name>\n"
-                 "".format(name_string))
+        wf.write("\t<name>{}</name>\n"
+                 "".format(name_string + '\u200b'))
     wf.write("</nameList>\n")
 
 
@@ -64,7 +65,8 @@ def xmlize(event_root, writer, join_truth):
         names_list, short_names_list = [], []
         for child in event_root:
             if child.tag == 'nameList':
-                if child.attrib['sex'] == 'male' or child.attrib['sex'] == 'female':
+                if child.attrib['sex'] == 'male' or \
+                        child.attrib['sex'] == 'female':
                     sort_names(child, names_list, short_names_list)
                 else:
                     raise ValueError("nameList's 'sex' attribute must "
@@ -86,7 +88,8 @@ def xmlize(event_root, writer, join_truth):
                     raise ValueError("nameList's 'sex' attribute must "
                                      "either be male or female!\n")
         # if both male nameList and female nameList empty, don't write
-        if (m_names_list or m_short_names_list) and (f_names_list or f_short_names_list):
+        if (m_names_list or m_short_names_list) and \
+                (f_names_list or f_short_names_list):
             write_names(writer, m_short_names_list, m_names_list,
                         f_short_names_list, f_names_list)
 
@@ -100,8 +103,10 @@ if __name__ == '__main__':
         root = tree.getroot()
 
         writing = input("Enter name of new file name to write to.\n")
-        with open(writing, 'w') as writing_file:
-            join_all = input("Join all nameLists regardless of gender? (enter y or n)\n")
+        # utf-8 encoding needed in order to write zero-width space to file
+        with open(writing, 'w', encoding='utf-8') as writing_file:
+            join_all = input("Join all nameLists regardless of gender? "
+                             "(enter y or n)\n")
             # default is to keep separate -- entered n
             join_regardless = False
             if join_all == 'y':
